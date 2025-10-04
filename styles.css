@@ -1,0 +1,114 @@
+* { box-sizing: border-box; }
+:root {
+  --bg: #EDE3D7;          /* creme */
+  --card: #FAF5EE;        /* lighter creme for cards */
+  --muted: #6F645C;       /* muted text */
+  --text: #241F19;        /* near-black on creme */
+  --accent: #F26D21;      /* Roe orange */
+  --border: #D8CFC4;      /* subtle borders */
+
+  /* Base header offset (used to keep section titles visible under sticky header) */
+  --header-offset: 80px;
+}
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, Noto Sans, sans-serif;
+}
+.sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+
+/* Header */
+.site-header { position: sticky; top: 0; background: rgba(237,227,215,.88);
+  backdrop-filter: saturate(1.1) blur(8px); border-bottom: 1px solid var(--border);
+  padding: 10px 16px 6px; z-index: 50;
+}
+.header-inner { display: flex; align-items: center; justify-content: center; gap: 12px; position: relative; }
+.logo { height: 34px; width: auto; position: absolute; left: 0; }
+.title { margin: 0; font-weight: 800; letter-spacing: .3px; }
+.spacer { width: 34px; } /* balances absolute logo on left */
+/* Horizontal, single-line, scrollable tab band */
+.tabs{
+  display: flex;
+  gap: 8px;
+  flex-wrap: nowrap;                /* prevent wrapping to 2nd row */
+  overflow-x: auto;                 /* enable sideways scroll */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  margin-top: 8px;
+  padding-bottom: 4px;              /* room for hidden scrollbar */
+  scrollbar-width: none;            /* hide scrollbar (Firefox) */
+}
+.tabs::-webkit-scrollbar{ display: none; }  /* hide scrollbar (WebKit) */
+
+.tabs button{
+  flex: 0 0 auto;                   /* keep each chip’s width */
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 6px 10px;                /* a bit tighter */
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.tabs button.active{
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+/* Layout */
+#content { padding: 20px 16px 80px; max-width: 980px; margin: 0 auto; }
+.section { margin: 28px 0; }
+.section h2 { margin: 0 0 12px; font-size: 22px; color: var(--text); letter-spacing: .2px; font-family: "Playfair Display", serif; }
+.subheading { margin: 12px 0 8px; font-size: 16px; font-weight: 700; color: var(--text); letter-spacing: .2px; opacity: .95; font-family: "Playfair Display", serif; }
+
+.grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 10px; }
+.card {
+  grid-column: span 12;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+}
+@media(min-width: 640px){ .card { grid-column: span 6; } }
+@media(min-width: 980px){ .card { grid-column: span 4; } }
+
+.item-title { font-weight: 800; margin: 0 0 4px; letter-spacing: .2px; }
+.item-sub { color: var(--muted); font-size: 14px; margin: 0 0 6px; }
+.price-line { display: flex; gap: 10px; flex-wrap: wrap; font-weight: 700; }
+
+.badge { display: inline-block; font-size: 12px; padding: 3px 8px; border-radius: 999px;
+  background: #fff; border: 1px solid var(--border); color: var(--text);
+}
+.hr { height: 1px; background: var(--border); border: 0; margin: 16px 0; }
+.muted { color: var(--muted); }
+
+/* Preloader bubbles */
+#preloader{ position:fixed; inset:0; background:#fff; display:flex; align-items:center; justify-content:center;
+  z-index:9999; transition:opacity .35s ease; }
+#preloader.hide{ opacity:0; pointer-events:none; }
+#bubble-layer{ position:absolute; inset:0; overflow:hidden; background:var(--bg); }
+.bub{ position:absolute; border-radius:50%; background:var(--accent); opacity:0; transform:scale(0); }
+@keyframes bubPop{
+  0%   { transform:scale(0); opacity:.9; }
+  70%  { opacity:1; }
+  100% { transform:scale(1.2); opacity:1; }
+}
+@media (prefers-reduced-motion: reduce){
+  .bub{ display:none; }
+  #preloader{ transition:none; }
+}
+
+/* Hide the grape line inside the Wine section (we already show grape as the subheading) */
+#sec-wine .item-sub { display: none; }
+
+/* Chips for item options (e.g., Gummy Bear Martini flavors) */
+.options{ display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; }
+
+/* ---------- Scroll offset tuning (Option A) ---------- */
+/* All sections: header height + a little breathing room */
+.section { scroll-margin-top: calc(var(--header-offset) + 16px); }
+
+/* Fine-tune specific sections */
+#sec-wine { scroll-margin-top: calc(var(--header-offset) + 16px); }
+#sec-cocktails { scroll-margin-top: calc(var(--header-offset) + 16px); }
+/* Add others as needed... */

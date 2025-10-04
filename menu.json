@@ -1,0 +1,470 @@
+[
+  {
+    "id": null,
+    "name": "Gambino Sparkling Wine Brut",
+    "grape": "Brut",
+    "glass_price": null,
+    "bottle_price": 20.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Clicquot Yellow Label Brut (750 ML)",
+    "grape": "Brut",
+    "glass_price": null,
+    "bottle_price": 130.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Clicquot Yellow Label Brut (375 ML)",
+    "grape": "Brut",
+    "glass_price": null,
+    "bottle_price": 75.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Chandon Brut Split",
+    "grape": "Brut",
+    "glass_price": null,
+    "bottle_price": 15.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Chandon Brut Ros\u00e9 Split",
+    "grape": "Ros\u00e9",
+    "glass_price": null,
+    "bottle_price": 15.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Mionetto Prestige Prosecco Brut Split",
+    "grape": "Prosecco",
+    "glass_price": null,
+    "bottle_price": 15.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Studio by Miraval Ros\u00e9",
+    "grape": "Ros\u00e9",
+    "glass_price": 12.0,
+    "bottle_price": 40.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Chalk Hill Chardonnay",
+    "grape": "Chardonnay",
+    "glass_price": 12.0,
+    "bottle_price": 40.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Stags Leap Chardonnay Karia",
+    "grape": "Chardonnay",
+    "glass_price": 20.0,
+    "bottle_price": 70.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Cru Chardonnay Unoaked",
+    "grape": "Chardonnay",
+    "glass_price": 12.0,
+    "bottle_price": 40.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Banshee Sauvignon Blanc",
+    "grape": "Sauvignon Blanc",
+    "glass_price": 12.0,
+    "bottle_price": 40.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Drylands Sauvignon Blanc",
+    "grape": "Sauvignon Blanc",
+    "glass_price": 12.0,
+    "bottle_price": 40.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Cht La Rabotine Sancerre Blanc",
+    "grape": "Sauvignon Blanc",
+    "glass_price": 20.0,
+    "bottle_price": 70.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Dr Hermann Dr H Riesling",
+    "grape": "Riesling",
+    "glass_price": 12.0,
+    "bottle_price": 40.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Favorite Neighbor Cabernet Sauvignon",
+    "grape": "Cabernet Sauvignon",
+    "glass_price": 17.0,
+    "bottle_price": 60.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Faust Cabernet Sauvignon",
+    "grape": "Cabernet Sauvignon",
+    "glass_price": 25.0,
+    "bottle_price": 90.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Josh Cellars Cabernet Sauvignon Reserve",
+    "grape": "Cabernet Sauvignon",
+    "glass_price": 17.0,
+    "bottle_price": 60.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Benton Lane Pinot Noir",
+    "grape": "Pinot Noir",
+    "glass_price": 17.0,
+    "bottle_price": 60.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Cherry Pie Pinot Noir",
+    "grape": "Pinot Noir",
+    "glass_price": 12.0,
+    "bottle_price": 40.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Flowers Pinot Noir",
+    "grape": "Pinot Noir",
+    "glass_price": 25.0,
+    "bottle_price": 90.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Emmolo Merlot",
+    "grape": "Merlot",
+    "glass_price": 20.0,
+    "bottle_price": 70.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Prisoner Red Blend",
+    "grape": "Red Blend",
+    "glass_price": 20.0,
+    "bottle_price": 70.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Cline Zinfandel Ancient Vines",
+    "grape": "Zinfandel",
+    "glass_price": 12.0,
+    "bottle_price": 40.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Terrazas Malbec Reserva",
+    "grape": "Malbec",
+    "glass_price": 12.0,
+    "bottle_price": 40.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Sandeman Port Tawny 10Y",
+    "grape": null,
+    "glass_price": 25.0,
+    "bottle_price": null,
+    "category": "after dinner wine",
+    "category_norm": "after-dinner wine"
+  },
+  {
+    "id": null,
+    "name": "Moscato",
+    "grape": null,
+    "glass_price": 25.0,
+    "bottle_price": null,
+    "category": "after dinner wine",
+    "category_norm": "after-dinner wine"
+  },
+  {
+    "id": null,
+    "name": "Inniskillin Vidal Icewine",
+    "grape": null,
+    "glass_price": 35.0,
+    "bottle_price": null,
+    "category": "after dinner wine",
+    "category_norm": "after-dinner wine"
+  },
+  {
+    "id": null,
+    "name": "Sandeman Port Fine Ruby",
+    "grape": null,
+    "glass_price": 15.0,
+    "bottle_price": null,
+    "category": "after dinner wine",
+    "category_norm": "after-dinner wine"
+  },
+  {
+    "id": null,
+    "name": "Terlato Pinot Grigio Friuli",
+    "grape": "Pinot Grigio",
+    "glass_price": 12.0,
+    "bottle_price": 40.0,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Pear Fiori",
+    "grape": "Absolut Pear Vodka, Elderflower liqueur, Lemon juice",
+    "glass_price": null,
+    "bottle_price": null,
+    "category": "cocktail",
+    "category_norm": "cocktails"
+  },
+  {
+    "id": null,
+    "name": "Mezcali",
+    "grape": "Rayu Mezcal Espad\u00edn, Blood Orange syrup, Orange juice, Lime juice, Coconut cream",
+    "glass_price": null,
+    "bottle_price": null,
+    "category": "cocktail",
+    "category_norm": "cocktails"
+  },
+  {
+    "id": null,
+    "name": "Lavender Detox",
+    "grape": "Drake's Vodka, Lime juice, Lavender syrup or Cr\u00e8me de Violette (float), Soda splash",
+    "glass_price": null,
+    "bottle_price": null,
+    "category": "cocktail",
+    "category_norm": "cocktails"
+  },
+  {
+    "id": null,
+    "name": "Lost at Sea",
+    "grape": "White Rum, Apricot Liqueur, Fresh Lime, Ginger, Salt",
+    "glass_price": null,
+    "bottle_price": null,
+    "category": "cocktail",
+    "category_norm": "cocktails"
+  },
+  {
+    "id": null,
+    "name": "Claremont Old Fashioned",
+    "grape": "Elijah Craig Bourbon, Laird's Apple Brandy, Angostura bitters, Orange bitters",
+    "glass_price": null,
+    "bottle_price": null,
+    "category": "cocktail",
+    "category_norm": "cocktails"
+  },
+  {
+    "id": null,
+    "name": "Roesy's Pearl",
+    "grape": "Gin, Almond Orgeat, Lime, Nutmeg",
+    "glass_price": 15.0,
+    "bottle_price": null,
+    "category": "cocktail",
+    "category_norm": "cocktails"
+  },
+  {
+    "id": null,
+    "name": "The Nomad",
+    "grape": "Tequila Blanco, Fresh Lemon, Simple syrup, Bitters",
+    "glass_price": null,
+    "bottle_price": null,
+    "category": "cocktail",
+    "category_norm": "cocktails"
+  },
+  {
+    "id": null,
+    "name": "Fleur de Negroni",
+    "grape": "Campari, Yuzu Liqueur, Lillet Ros\u00e8, Gin",
+    "glass_price": null,
+    "bottle_price": null,
+    "category": "cocktail",
+    "category_norm": "cocktails"
+  },
+  {
+    "id": null,
+    "name": "Banana Rum Old Fashion",
+    "grape": "Dark Rum, Banana Liqueur, Walnut Bitters",
+    "glass_price": null,
+    "bottle_price": null,
+    "category": "cocktail",
+    "category_norm": "cocktails"
+  },
+  {
+    "id": null,
+    "name": "Chocolate Pumpkin Spice",
+    "grape": "Stoli Vanilla, Mozart Pumkin Spice Liqueur",
+    "glass_price": null,
+    "bottle_price": null,
+    "category": "After Dinner Martinis",
+    "category_norm": "after-dinner martinis"
+  },
+  {
+    "id": null,
+    "name": "Dark Chocolate",
+    "grape": "Stoli Vanilla, Mozart Dark Chocolate Liqueur",
+    "glass_price": null,
+    "bottle_price": null,
+    "category": "After Dinner Martinis",
+    "category_norm": "after-dinner martinis"
+  },
+  {
+    "id": null,
+    "name": "White Chocolate",
+    "grape": "Stoli Vanilla, Mozart White Chocolate Liqueur",
+    "glass_price": null,
+    "bottle_price": null,
+    "category": "After Dinner Martinis",
+    "category_norm": "after-dinner martinis"
+  },
+  {
+    "id": null,
+    "name": "Coconut Cr\u00e8me",
+    "grape": "Stoli Vanilla, Mozart Coconut Creme Liqueur",
+    "glass_price": null,
+    "bottle_price": null,
+    "category": "After Dinner Martinis",
+    "category_norm": "after-dinner martinis"
+  },
+  {
+    "id": null,
+    "name": "White Lie",
+    "grape": "Lyres NA Italian Orange, Yuzu, Jasmine tea, bitters",
+    "glass_price": null,
+    "bottle_price": null,
+    "category": "Mocktails",
+    "category_norm": "mocktails"
+  },
+  {
+    "id": null,
+    "name": "Spa Water",
+    "grape": "Cucumber Mint Shrub, Fresh Lime, Soda",
+    "glass_price": null,
+    "bottle_price": null,
+    "category": "Mocktails",
+    "category_norm": "mocktails"
+  },
+  {
+    "id": null,
+    "name": "Strawberry Spritz",
+    "grape": "Pickled Strawberry, Fresh Lime, Soda",
+    "glass_price": null,
+    "bottle_price": null,
+    "category": "Mocktails",
+    "category_norm": "mocktails"
+  },
+  {
+    "id": null,
+    "name": "Mock-icillin",
+    "grape": "Ginger, Lemon, Honey, Ginger Beer",
+    "glass_price": null,
+    "bottle_price": null,
+    "category": "Mocktails",
+    "category_norm": "mocktails"
+  },
+  {
+    "id": null,
+    "name": "PBR",
+    "grape": null,
+    "glass_price": 5.0,
+    "bottle_price": null,
+    "category": "Happy Hour",
+    "category_norm": "happy hour"
+  },
+  {
+    "id": null,
+    "name": "Drafts",
+    "grape": null,
+    "glass_price": 7.0,
+    "bottle_price": null,
+    "category": "Happy Hour",
+    "category_norm": "happy hour"
+  },
+  {
+    "id": null,
+    "name": "Rotating Red and White By the Glass",
+    "grape": null,
+    "glass_price": 9.0,
+    "bottle_price": null,
+    "category": "Happy Hour",
+    "category_norm": "happy hour"
+  },
+  {
+    "id": null,
+    "name": "Roesy's Pearl",
+    "grape": null,
+    "glass_price": 10.0,
+    "bottle_price": null,
+    "category": "Happy Hour",
+    "category_norm": "happy hour"
+  },
+  {
+    "id": null,
+    "name": "Vodka or Gin Martini- regular or blue cheese olives",
+    "grape": null,
+    "glass_price": 10.0,
+    "bottle_price": null,
+    "category": "Happy Hour",
+    "category_norm": "happy hour"
+  },
+  {
+    "id": null,
+    "name": "Gummy Bear Martini",
+    "grape": null,
+    "glass_price": 10.0,
+    "bottle_price": null,
+    "category": "Happy Hour",
+    "category_norm": "happy hour"
+  }
+]
