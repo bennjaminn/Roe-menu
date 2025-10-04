@@ -91,6 +91,24 @@
   },
   {
     "id": null,
+    "name": "Freemark Abbey",
+    "grape": "Chardonnay",
+    "glass_price": null,
+    "bottle_price": 80,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
+    "name": "Far Niente Napa",
+    "grape": "Chardonnay",
+    "glass_price": null,
+    "bottle_price": 100,
+    "category": "wine",
+    "category_norm": "wine"
+  },
+  {
+    "id": null,
     "name": "Banshee Sauvignon Blanc",
     "grape": "Sauvignon Blanc",
     "glass_price": 12.0,
@@ -208,7 +226,7 @@
   },
   {
     "id": null,
-    "name": "Terrazas Malbec Reserva",
+    "name": "Terrazas Malbec Reserve",
     "grape": "Malbec",
     "glass_price": 12.0,
     "bottle_price": 40.0,
@@ -380,7 +398,7 @@
   {
     "id": null,
     "name": "White Lie",
-    "grape": "Lyres NA Italian Orange, Yuzu, Jasmine tea, bitters",
+    "grape": "Lyres NA Italian Orange, Yuzu, Jasmine tea, Bitters",
     "glass_price": null,
     "bottle_price": null,
     "category": "Mocktails",
@@ -398,7 +416,7 @@
   {
     "id": null,
     "name": "Strawberry Spritz",
-    "grape": "Pickled Strawberry, Fresh Lime, Soda",
+    "grape": "Pickled Strawberry, Fresh Lime, Soda, Bitters",
     "glass_price": null,
     "bottle_price": null,
     "category": "Mocktails",

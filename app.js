@@ -90,6 +90,30 @@ const fmtPlain = (n) => {
 
 const titleCase = (s) => s.replace(/(^|\s|-)([a-z])/g, (_, p1, p2) => p1 + p2.toUpperCase());
 
+// Normalize a name for matching
+function normName(s){
+  return (s || '')
+    .toLowerCase()
+    .replace(/[^\w\s]/g, '')   // strip punctuation
+    .replace(/\s+/g, ' ')      // collapse spaces
+    .trim();
+}
+
+// Rank for custom Happy Hour order
+function getHappyHourRank(name){
+  const n = normName(name);
+
+  if (n.startsWith('pbr')) return 0;
+  if (n.startsWith('draft')) return 1;
+  if (n.includes('rotating red and white')) return 2;
+  if (isRoesysPearl(name)) return 3; // uses your existing helper
+  if (n.startsWith('vodka or gin martini')) return 4;
+  if (n.includes('gummy bear martini') || n.includes('gymmy bear martini')) return 5;
+
+  return 100; // anything else goes after (alphabetical fallback)
+}
+
+
 function isRoesysPearl(name) {
   if (!name) return false;
   const n = name.toLowerCase().replace(/[^\w\s]/g, "");
@@ -119,6 +143,7 @@ async function init() {
   });
 
   // Sort within sections (Roesy's Pearl first in cocktails)
+  // Sort within sections
   Object.keys(sections).forEach(k => {
     if (k === "cocktails") {
       sections[k].sort((a, b) => {
@@ -128,10 +153,19 @@ async function init() {
         if (!aIsR && bIsR) return 1;
         return (a.name || "").localeCompare(b.name || "");
       });
+    } else if (k === "happy hour") {
+      // Custom order for Happy Hour
+      sections[k].sort((a, b) => {
+        const ra = getHappyHourRank(a.name);
+        const rb = getHappyHourRank(b.name);
+        if (ra !== rb) return ra - rb;
+        return (a.name || "").localeCompare(b.name || "");
+      });
     } else if (k !== "wine") {
       sections[k].sort((a, b) => (a.name || "").localeCompare(b.name || ""));
     }
   });
+
 
   renderTabs(SECTION_ORDER);
   renderSections(sections);
@@ -258,7 +292,7 @@ function renderCard(it, sectionKey) {
   card.appendChild(title);
 
   // Hide grape line in Wine & Mocktails (grape already shown as wine subheading)
-  if (it.grape && sectionKey !== "mocktails" && sectionKey !== "wine") {
+  if (it.grape && sectionKey !== "wine") {
     const sub = document.createElement('div');
     sub.className = 'item-sub';
     sub.textContent = it.grape;

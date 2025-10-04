@@ -82,21 +82,55 @@ html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text);
 .hr { height: 1px; background: var(--border); border: 0; margin: 16px 0; }
 .muted { color: var(--muted); }
 
-/* Preloader bubbles */
-#preloader{ position:fixed; inset:0; background:#fff; display:flex; align-items:center; justify-content:center;
-  z-index:9999; transition:opacity .35s ease; }
-#preloader.hide{ opacity:0; pointer-events:none; }
-#bubble-layer{ position:absolute; inset:0; overflow:hidden; background:var(--bg); }
-.bub{ position:absolute; border-radius:50%; background:var(--accent); opacity:0; transform:scale(0); }
-@keyframes bubPop{
-  0%   { transform:scale(0); opacity:.9; }
-  70%  { opacity:1; }
-  100% { transform:scale(1.2); opacity:1; }
+/* Preloader: orange splotches behind creme ROE text */
+#preloader{
+  position:fixed; inset:0; background:var(--bg);
+  display:flex; align-items:center; justify-content:center;
+  z-index:9999; transition:opacity .35s ease;
 }
+#preloader.hide{ opacity:0; pointer-events:none; }
+
+#bubble-layer{
+  position:absolute; inset:0; overflow:hidden; z-index:1;
+  /* transparent so only splotches show */
+  background: transparent;
+}
+
+/* Big ROE word on top — same color as the background */
+#pre-word{
+  position:absolute; z-index:2; inset:auto;
+  top:50%; left:50%; transform:translate(-50%, -50%);
+  font-family: "Playfair Display", serif;
+  font-weight: 800; letter-spacing: 0.06em; line-height: .95;
+  color: var(--bg);                      /* same as page background */
+  text-transform: uppercase;
+  font-size: clamp(56px, 10vw, 140px);   /* responsive size */
+  user-select: none;
+  /* subtle lift so the word edges read crisply against splotches */
+  text-shadow: 0 0 0 rgba(0,0,0,0.001);
+}
+
+/* Splotches (elliptical orange blobs) */
+.bub{
+  position:absolute; border-radius:50%;
+  opacity:0; transform:scale(1);                       /* no shape scaling here */
+  background: var(--accent);
+  filter: blur(.6px);                                  /* softer edges */
+  /* width/height + position set inline from JS */
+}
+
+/* Pop/appear animation (no bounce; quick, organic reveal) */
+@keyframes bubPop{
+  0%   { transform:scale(.8); opacity:0; }
+  70%  { transform:scale(1.02); opacity:.95; }
+  100% { transform:scale(1); opacity:1; }
+}
+
 @media (prefers-reduced-motion: reduce){
   .bub{ display:none; }
   #preloader{ transition:none; }
 }
+
 
 /* Hide the grape line inside the Wine section (we already show grape as the subheading) */
 #sec-wine .item-sub { display: none; }
