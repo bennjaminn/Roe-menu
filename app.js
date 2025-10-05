@@ -38,6 +38,7 @@ runPreloader();
 const SECTION_ORDER = [
   "happy hour",
   "wine",
+  "sparkling",
   "cocktails",
   "drafts",
   "mocktails",
@@ -48,6 +49,7 @@ const SECTION_ORDER = [
 const CATEGORY_TO_SECTION = {
   "happy hour": "happy hour",
   "wine": "wine",
+  "sparkling": "sparkling",
   "cocktails": "cocktails",
   "mocktails": "mocktails",
   "after-dinner wine": "after-dinner wine",
@@ -58,7 +60,8 @@ const CATEGORY_TO_SECTION = {
 const SECTION_META = {
   "happy hour": { note: "Mon\u2013Fri 3\u20136pm" },
   "mocktails": { note: "Add choice of spirit for an upcharge" },
-  "drafts":    { note: "Rotating selection — ask your server" }
+  "drafts":    { note: "Rotating selection — ask your server" },
+  "after-dinner wine": {note:'by the glass'}
 };
 
 // Item-specific options (by name, case-insensitive)
@@ -88,7 +91,28 @@ const fmtPlain = (n) => {
   return Number.isInteger(val) ? `${val}` : `${val.toFixed(2)}`;
 };
 
+// Treat these as Sparkling for this specific menu.json
+const SPARKLING_GRAPES = new Set(["brut", "prosecco", "rosé", "rose"]);
+const isSparklingItem = (it) => SPARKLING_GRAPES.has((it.grape || "").trim().toLowerCase());
+
+
 const titleCase = (s) => s.replace(/(^|\s|-)([a-z])/g, (_, p1, p2) => p1 + p2.toUpperCase());
+
+function getSortPrice(it, sectionKey) {
+  const g = (typeof it.glass_price === 'number' && !Number.isNaN(it.glass_price)) ? it.glass_price : null;
+  const b = (typeof it.bottle_price === 'number' && !Number.isNaN(it.bottle_price)) ? it.bottle_price : null;
+
+  if (sectionKey === 'wine') {
+    // Wine: sort by glass price; if none, fall back to bottle
+    return (g != null ? g : (b != null ? b : Number.POSITIVE_INFINITY));
+  }
+  if (sectionKey === 'sparkling') {
+    // Sparkling: bottle first, then glass (keep previous behavior)
+    return (b != null ? b : (g != null ? g : Number.POSITIVE_INFINITY));
+  }
+  return (g != null ? g : (b != null ? b : Number.POSITIVE_INFINITY));
+}
+
 
 // Normalize a name for matching
 function normName(s){
@@ -128,22 +152,30 @@ async function init() {
   // Group items by final sections
   const sections = {};
   SECTION_ORDER.forEach(key => sections[key] = []);
+  if (!sections["sparkling"]) sections["sparkling"] = []; // safety
 
   data.forEach(item => {
     const cat = (item.category_norm || "").trim().toLowerCase();
-    const section = CATEGORY_TO_SECTION[cat];
+    let section = CATEGORY_TO_SECTION[cat]; // ← let, not const
+
+    // If it's in Wine but grape is Brut/Prosecco/Rosé, move to Sparkling
+    if (section === "wine" && isSparklingItem(item)) {
+      section = "sparkling";
+    }
+
     if (section) sections[section].push(item);
   });
 
   // Add Drafts placeholder
-  sections["drafts"].push({
-    name: "Rotating Draft Selection",
-    special: "Rotating selection — ask your server",
-    category_norm: "drafts"
-  });
+  if (sections["drafts"]) {
+    sections["drafts"].push({
+      name: "Rotating Draft Selection",
+      special: "Rotating selection — ask your server",
+      category_norm: "drafts"
+    });
+  }
 
-  // Sort within sections (Roesy's Pearl first in cocktails)
-  // Sort within sections
+  // Sort within sections (skip wine & sparkling — handled by subrenderers)
   Object.keys(sections).forEach(k => {
     if (k === "cocktails") {
       sections[k].sort((a, b) => {
@@ -154,18 +186,16 @@ async function init() {
         return (a.name || "").localeCompare(b.name || "");
       });
     } else if (k === "happy hour") {
-      // Custom order for Happy Hour
       sections[k].sort((a, b) => {
         const ra = getHappyHourRank(a.name);
         const rb = getHappyHourRank(b.name);
         if (ra !== rb) return ra - rb;
         return (a.name || "").localeCompare(b.name || "");
       });
-    } else if (k !== "wine") {
+    } else if (k !== "wine" && k !== "sparkling") {
       sections[k].sort((a, b) => (a.name || "").localeCompare(b.name || ""));
     }
   });
-
 
   renderTabs(SECTION_ORDER);
   renderSections(sections);
@@ -222,6 +252,9 @@ function renderSections(sections) {
 
     if (key === "wine") {
       renderWineSubsections(sec, items);
+    } else if (key === "sparkling") {
+      renderSparklingSubsections(sec,items);
+    
     } else {
       const grid = document.createElement('div');
       grid.className = 'grid';
@@ -231,6 +264,21 @@ function renderSections(sections) {
         empty.textContent = 'No items yet.';
         sec.appendChild(empty);
       } else {
+         // 🔽 Sort AFTER-DINNER WINE by price (glass → bottle), then name
+        if (key === "after-dinner wine") {
+          items.sort((a, b) => {
+            const ga = (typeof a.glass_price === 'number' && !Number.isNaN(a.glass_price)) ? a.glass_price : null;
+            const gb = (typeof b.glass_price === 'number' && !Number.isNaN(b.glass_price)) ? b.glass_price : null;
+            const ba = (typeof a.bottle_price === 'number' && !Number.isNaN(a.bottle_price)) ? a.bottle_price : null;
+            const bb = (typeof b.bottle_price === 'number' && !Number.isNaN(b.bottle_price)) ? b.bottle_price : null;
+
+            const pa = (ga != null) ? ga : (ba != null ? ba : Infinity);
+            const pb = (gb != null) ? gb : (bb != null ? bb : Infinity);
+
+            if (pa !== pb) return pa - pb;                      // price first
+            return (a.name || "").localeCompare(b.name || "");  // then name
+          });
+        }
         items.forEach(it => grid.appendChild(renderCard(it, key)));
         sec.appendChild(grid);
       }
@@ -242,44 +290,72 @@ function renderSections(sections) {
 
 
 function renderWineSubsections(container, items) {
-  // Group by grape; send specified grapes to "Other Reds"
-  const groups = new Map(); // grape => items[]
-  const otherReds = [];
+  // Exact order you requested (matching your JSON's grape names)
+  const ORDER = [
+    "Chardonnay",
+    "Sauvignon Blanc",
+    "Pinot Grigio",
+    "Riesling",
+    "Pinot Noir",
+    "Cabernet Sauvignon",
+    "Other Reds"
+  ];
+
+  // Build buckets
+  const buckets = new Map(ORDER.map(k => [k, []]));
+  const extras = new Map(); // for anything not in ORDER (e.g., Brut / Prosecco / Rosé)
 
   (items || []).forEach(it => {
     const grape = (it.grape || "").trim();
-    const grapeKey = grape.toLowerCase();
-    if (OTHER_REDS_SET.has(grapeKey)) {
-      otherReds.push(it);
+    const key = grape.toLowerCase();
+
+    if (OTHER_REDS_SET.has(key)) {
+      buckets.get("Other Reds").push(it);
+    } else if (buckets.has(grape)) {
+      buckets.get(grape).push(it);
     } else {
-      if (!groups.has(grape)) groups.set(grape, []);
-      groups.get(grape).push(it);
+      if (!extras.has(grape)) extras.set(grape, []);
+      extras.get(grape).push(it);
     }
   });
 
-  // Sort grapes A->Z; "Other Reds" at end if present
-  const grapeNames = Array.from(groups.keys()).sort((a,b) => a.localeCompare(b));
-  if (otherReds.length) grapeNames.push(OTHER_REDS_LABEL);
-
-  grapeNames.forEach(gn => {
+  // Helper to render a single sub-section
+  function renderSubsection(label, list, sectionKey = "wine") {
+    if (!list.length) return;
     const sub = document.createElement('div');
     sub.className = 'subsection';
 
+    // Display label tweaks: shorten "Cabernet Sauvignon" to "Cabernet"
+    const displayLabel = (label === "Cabernet Sauvignon") ? "Cabernet" : label;
+
     const h3 = document.createElement('h3');
     h3.className = 'subheading';
-    h3.textContent = gn || "Other";
+    h3.textContent = displayLabel;
     sub.appendChild(h3);
 
     const grid = document.createElement('div');
     grid.className = 'grid';
-
-    const list = (gn === OTHER_REDS_LABEL) ? otherReds : (groups.get(gn) || []);
-    list.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
-    list.forEach(it => grid.appendChild(renderCard(it, "wine")));
+    list
+      .slice()
+      .sort((a, b) => {
+        const pa = getSortPrice(a, "wine");
+        const pb = getSortPrice(b, "wine");
+        if (pa !== pb) return pa - pb;                      // price first
+        return (a.name || "").localeCompare(b.name || "");  // then name
+      })
+      .forEach(it => grid.appendChild(renderCard(it, sectionKey)));
 
     sub.appendChild(grid);
     container.appendChild(sub);
-  });
+  }
+
+  // Render in the specified order first
+  ORDER.forEach(label => renderSubsection(label, buckets.get(label) || []));
+
+  // Then render any leftover grape groups (e.g., Brut / Prosecco / Rosé), alphabetically
+  Array.from(extras.keys())
+    .sort((a, b) => (a || "").localeCompare(b || ""))
+    .forEach(label => renderSubsection(label || "Other", extras.get(label) || []));
 }
 
 function renderCard(it, sectionKey) {
@@ -336,20 +412,32 @@ function renderCard(it, sectionKey) {
   } else {
     // Default wine/happy hour/after-dinner wine: use CSV prices
     const nameLower = (it.name || '').toLowerCase();
-    const isSplit = nameLower.includes('split') || nameLower.includes('375');
+    // Only treat items explicitly labeled "split" as splits
+    const isSplit = nameLower.includes('split');
 
     const g = fmtPlain(it.glass_price);
     const b = fmtPlain(it.bottle_price);
 
+    // Add emojis for wine sections only
+    const isWineSection =
+      sectionKey === 'wine' ||
+      sectionKey === 'sparkling' ||
+      sectionKey === 'after-dinner wine';
+
     if (isSplit && b) {
-      // For split-sized bottles; shows "Split 15"
-      prices.push(`Split ${b}`);
+      prices.push(isWineSection ? `Split 🍾 ${b}` : `Split ${b}`);
+    } else if (isWineSection) {
+      if (g && b)      prices.push(`🍷 ${g} / 🍾 ${b}`);  // e.g., "🍷 12 / 🍾 40"
+      else if (g)      prices.push(`🍷 ${g}`);
+      else if (b)      prices.push(`🍾 ${b}`);
     } else {
-      if (g && b) prices.push(`${g}/${b}`);   // -> "15/40"
-      else if (g)  prices.push(`${g}`);       // -> "15"
-      else if (b)  prices.push(`${b}`);       // -> "40"
+      // Non-wine sections keep the plain numbers
+      if (g && b)      prices.push(`${g}/${b}`);
+      else if (g)      prices.push(`${g}`);
+      else if (b)      prices.push(`${b}`);
     }
   }
+
 
   if (prices.length) {
     const line = document.createElement('div');
@@ -456,3 +544,84 @@ function setupScrollSpy() {
   window.addEventListener('scroll', throttle(onScrollSpy, 50), { passive: true });
   window.addEventListener('resize', () => { captureSections(); onScrollSpy(); });
 }
+
+
+function renderSparklingSubsections(container, items) {
+  // --- Top: DIY Mimosa ---
+  const diy = document.createElement('div');
+  diy.className = 'subsection';
+
+  const h3d = document.createElement('h3');
+  h3d.className = 'subheading';
+  h3d.textContent = 'DIY Mimosa';
+  diy.appendChild(h3d);
+
+  const gridD = document.createElement('div');
+  gridD.className = 'grid';
+
+  // Custom card: "Gambino Brut with Juice Flight" — $25
+  const card = document.createElement('div');
+  card.className = 'card';
+
+  const title = document.createElement('div');
+  title.className = 'item-title';
+  title.textContent = 'Gambino Brut with Juice Flight';
+  card.appendChild(title);
+
+  const priceLine = document.createElement('div');
+  priceLine.className = 'price-line';
+  const span = document.createElement('span');
+  span.textContent = '25';
+  priceLine.appendChild(span);
+  card.appendChild(priceLine);
+
+  gridD.appendChild(card);
+  diy.appendChild(gridD);
+  container.appendChild(diy);
+
+  // --- Then: the regular sparkling groups ---
+  const ORDER = ["Brut", "Prosecco", "Rosé"];
+  const buckets = new Map(ORDER.map(k => [k, []]));
+
+  (items || []).forEach(it => {
+    const g = (it.grape || "").trim();
+    const key = ORDER.find(label => label.toLowerCase() === g.toLowerCase()) || "Other";
+    if (!buckets.has(key)) buckets.set(key, []);
+    buckets.get(key).push(it);
+  });
+
+  ORDER.concat(Array.from(buckets.keys()).filter(k => !ORDER.includes(k)).sort())
+    .forEach(label => {
+      const list = (buckets.get(label) || []);
+      if (!list.length) return;
+
+      const sub = document.createElement('div');
+      sub.className = 'subsection';
+
+      const h3 = document.createElement('h3');
+      h3.className = 'subheading';
+      h3.textContent = label;
+      sub.appendChild(h3);
+
+      const grid = document.createElement('div');
+      grid.className = 'grid';
+      list
+        .slice()
+        .sort((a, b) => {
+          const isRose = label.toLowerCase().includes('ros');
+          const pa = isRose
+            ? ( (typeof a.glass_price === 'number') ? a.glass_price : (typeof a.bottle_price === 'number' ? a.bottle_price : Infinity) )
+            : ( (typeof a.bottle_price === 'number') ? a.bottle_price : (typeof a.glass_price === 'number' ? a.glass_price : Infinity) );
+          const pb = isRose
+            ? ( (typeof b.glass_price === 'number') ? b.glass_price : (typeof b.bottle_price === 'number' ? b.bottle_price : Infinity) )
+            : ( (typeof b.bottle_price === 'number') ? b.bottle_price : (typeof b.glass_price === 'number' ? b.glass_price : Infinity) );
+          if (pa !== pb) return pa - pb;
+          return (a.name || "").localeCompare(b.name || "");
+        })
+        .forEach(it => grid.appendChild(renderCard(it, "sparkling")));
+
+      sub.appendChild(grid);
+      container.appendChild(sub);
+    });
+}
+

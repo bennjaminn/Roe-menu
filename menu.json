@@ -246,7 +246,7 @@
     "id": null,
     "name": "Moscato",
     "grape": null,
-    "glass_price": 25.0,
+    "glass_price": 10.0,
     "bottle_price": null,
     "category": "after dinner wine",
     "category_norm": "after-dinner wine"
@@ -361,6 +361,15 @@
   },
   {
     "id": null,
+    "name": "Espresso Martini",
+    "grape": "Fresh Espresso, Vodka, Coffee Liqueur",
+    "glass_price": null,
+    "bottle_price": null,
+    "category": "cocktail",
+    "category_norm": "cocktails"
+  },
+  {
+    "id": null,
     "name": "Chocolate Pumpkin Spice",
     "grape": "Stoli Vanilla, Mozart Pumkin Spice Liqueur",
     "glass_price": null,
@@ -426,6 +435,15 @@
     "id": null,
     "name": "Mock-icillin",
     "grape": "Ginger, Lemon, Honey, Ginger Beer",
+    "glass_price": null,
+    "bottle_price": null,
+    "category": "Mocktails",
+    "category_norm": "mocktails"
+  },
+  {
+    "id": null,
+    "name": "Bloody Mary",
+    "grape": "house craft mix",
     "glass_price": null,
     "bottle_price": null,
     "category": "Mocktails",

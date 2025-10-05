@@ -146,3 +146,8 @@ html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text);
 #sec-wine { scroll-margin-top: calc(var(--header-offset) + 16px); }
 #sec-cocktails { scroll-margin-top: calc(var(--header-offset) + 16px); }
 /* Add others as needed... */
+
+
+/* Hide grape line where we already show it as a subheading */
+#sec-wine .item-sub,
+#sec-sparkling .item-sub { display: none; }
