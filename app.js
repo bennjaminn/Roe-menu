@@ -53,14 +53,15 @@ const CATEGORY_TO_SECTION = {
   "cocktails": "cocktails",
   "mocktails": "mocktails",
   "after-dinner wine": "after-dinner wine",
-  "after-dinner martinis": "after-dinner martinis"
+  "after-dinner martinis": "after-dinner martinis",
+  "drafts": "drafts"
 };
 
 // Subtext/notes under section titles
 const SECTION_META = {
   "happy hour": { note: "Mon\u2013Fri 3\u20136pm" },
   "mocktails": { note: "Add choice of spirit for an upcharge" },
-  "drafts":    { note: "Rotating selection — ask your server" },
+  "drafts":    { note: "Ask your server for non alcoholic beer" },
   "after-dinner wine": {note:'by the glass'}
 };
 
@@ -156,24 +157,14 @@ async function init() {
 
   data.forEach(item => {
     const cat = (item.category_norm || "").trim().toLowerCase();
-    let section = CATEGORY_TO_SECTION[cat]; // ← let, not const
+    let section = CATEGORY_TO_SECTION[cat];
 
     // If it's in Wine but grape is Brut/Prosecco/Rosé, move to Sparkling
     if (section === "wine" && isSparklingItem(item)) {
       section = "sparkling";
     }
-
     if (section) sections[section].push(item);
   });
-
-  // Add Drafts placeholder
-  if (sections["drafts"]) {
-    sections["drafts"].push({
-      name: "Rotating Draft Selection",
-      special: "Rotating selection — ask your server",
-      category_norm: "drafts"
-    });
-  }
 
   // Sort within sections (skip wine & sparkling — handled by subrenderers)
   Object.keys(sections).forEach(k => {
@@ -202,6 +193,7 @@ async function init() {
   setupScrollSpy();
 }
 
+
 function renderTabs(order) {
   const tabs = document.getElementById('tabs');
   tabs.innerHTML = "";
@@ -226,6 +218,7 @@ function renderTabs(order) {
 function renderSections(sections) {
   const root = document.getElementById('content');
   root.innerHTML = "";
+
   Object.keys(sections).forEach(key => {
     const items = sections[key];
     const sec = document.createElement('section');
@@ -253,18 +246,18 @@ function renderSections(sections) {
     if (key === "wine") {
       renderWineSubsections(sec, items);
     } else if (key === "sparkling") {
-      renderSparklingSubsections(sec,items);
-    
+      renderSparklingSubsections(sec, items);
     } else {
       const grid = document.createElement('div');
       grid.className = 'grid';
+
       if (!items || items.length === 0) {
         const empty = document.createElement('p');
         empty.className = 'muted';
         empty.textContent = 'No items yet.';
         sec.appendChild(empty);
       } else {
-         // 🔽 Sort AFTER-DINNER WINE by price (glass → bottle), then name
+        // 🔽 Sort AFTER-DINNER WINE by price (glass → bottle), then name
         if (key === "after-dinner wine") {
           items.sort((a, b) => {
             const ga = (typeof a.glass_price === 'number' && !Number.isNaN(a.glass_price)) ? a.glass_price : null;
@@ -279,14 +272,36 @@ function renderSections(sections) {
             return (a.name || "").localeCompare(b.name || "");  // then name
           });
         }
+
+        // ✅ Sort DRAFTS by price low → high (glass first, else bottle), then name
+        if (key === "drafts") {
+          items.sort((a, b) => {
+            const pa = getSortPrice(a, "drafts");
+            const pb = getSortPrice(b, "drafts");
+            if (pa !== pb) return pa - pb;
+            return (a.name || "").localeCompare(b.name || "");
+          });
+        }
+
         items.forEach(it => grid.appendChild(renderCard(it, key)));
         sec.appendChild(grid);
+
+        // ✅ Footer note for Drafts only (always at bottom) this used to say non alcoholic beer ask your server but I got rid of it bc it looked weird
+        if (key === "drafts") {
+          const foot = document.createElement('div');
+          foot.className = 'muted';
+          foot.style.marginTop = '8px';
+          foot.textContent = '';
+          sec.appendChild(foot);
+        }
       }
     }
 
     root.appendChild(sec);
   });
 }
+
+
 
 
 function renderWineSubsections(container, items) {
@@ -394,7 +409,7 @@ function renderCard(it, sectionKey) {
   // Pricing logic by section
   const prices = [];
   if (sectionKey === "cocktails") {
-    // All cocktails $18 except Roesy's Pearl $15
+    // All cocktails 18 except Roesy's Pearl 15
     const price = isRoesysPearl(it.name) ? 15 : 18;
     prices.push(`${price}`);
   } else if (sectionKey === "mocktails") {
@@ -402,7 +417,11 @@ function renderCard(it, sectionKey) {
   } else if (sectionKey === "after-dinner martinis") {
     prices.push(`17`);
   } else if (sectionKey === "drafts") {
-    // Show badge/note only
+    // Drafts: show plain numeric price (no $)
+    const g = fmtPlain(it.glass_price);
+    if (g) prices.push(`${g}`);
+
+    // Optional note/badge
     if (it.special) {
       const badge = document.createElement('span');
       badge.className = 'badge';
@@ -438,7 +457,6 @@ function renderCard(it, sectionKey) {
     }
   }
 
-
   if (prices.length) {
     const line = document.createElement('div');
     line.className = 'price-line';
@@ -452,6 +470,7 @@ function renderCard(it, sectionKey) {
 
   return card;
 }
+
 
 
 init().catch(err => {

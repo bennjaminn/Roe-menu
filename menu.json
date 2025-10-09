@@ -502,5 +502,15 @@
     "bottle_price": null,
     "category": "Happy Hour",
     "category_norm": "happy hour"
-  }
+  },
+  { "name": "Headlands Hawkhill Heff", "glass_price": 9, "category_norm": "drafts" },
+  { "name": "Offshoot Hazy IPA",       "glass_price": 9, "category_norm": "drafts" },
+  { "name": "Ballast Point Sculpin",   "glass_price": 9, "category_norm": "drafts" },
+  { "name": "Modelo Especial",         "glass_price": 9, "category_norm": "drafts" },
+  { "name": "PBR",                     "glass_price": 5, "category_norm": "drafts" },
+  { "name": "Sam Adams Octoberfest",   "glass_price": 9, "category_norm": "drafts" },
+  { "name": "Lost Coast Blonde",       "glass_price": 9, "category_norm": "drafts" },
+  { "name": "Dad Bod Amber",           "glass_price": 9, "category_norm": "drafts" },
+  { "name": "Guinness",                "glass_price": 9, "category_norm": "drafts" },
+  { "name": "Lagunitas Hazy",          "glass_price": 9, "category_norm": "drafts" }
 ]
