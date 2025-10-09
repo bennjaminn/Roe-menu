@@ -10,7 +10,7 @@
   },
   {
     "id": null,
-    "name": "Clicquot Yellow Label Brut (750 ML)",
+    "name": "Veuve Clicquot Yellow Label Brut (750 ML)",
     "grape": "Brut",
     "glass_price": null,
     "bottle_price": 130.0,
@@ -19,7 +19,7 @@
   },
   {
     "id": null,
-    "name": "Clicquot Yellow Label Brut (375 ML)",
+    "name": "Veuve Clicquot Yellow Label Brut (375 ML)",
     "grape": "Brut",
     "glass_price": null,
     "bottle_price": 75.0,
@@ -299,7 +299,7 @@
   {
     "id": null,
     "name": "Lavender Detox",
-    "grape": "Drake's Vodka, Lime juice, Lavender syrup or Cr\u00e8me de Violette (float), Soda splash",
+    "grape": "Vodka, Lime juice, Lavender syrup or Cr\u00e8me de Violette (float), Soda splash",
     "glass_price": null,
     "bottle_price": null,
     "category": "cocktail",
@@ -371,7 +371,7 @@
   {
     "id": null,
     "name": "Chocolate Pumpkin Spice",
-    "grape": "Stoli Vanilla, Mozart Pumkin Spice Liqueur",
+    "grape": "Stoli Vanilla, Mozart Pumkin Spice Liqueur, topped with cold foam",
     "glass_price": null,
     "bottle_price": null,
     "category": "After Dinner Martinis",
@@ -380,7 +380,7 @@
   {
     "id": null,
     "name": "Dark Chocolate",
-    "grape": "Stoli Vanilla, Mozart Dark Chocolate Liqueur",
+    "grape": "Stoli Vanilla, Mozart Dark Chocolate Liqueur, topped with cold foam",
     "glass_price": null,
     "bottle_price": null,
     "category": "After Dinner Martinis",
@@ -389,7 +389,7 @@
   {
     "id": null,
     "name": "White Chocolate",
-    "grape": "Stoli Vanilla, Mozart White Chocolate Liqueur",
+    "grape": "Stoli Vanilla, Mozart White Chocolate Liqueur, topped with cold foam",
     "glass_price": null,
     "bottle_price": null,
     "category": "After Dinner Martinis",
@@ -398,7 +398,7 @@
   {
     "id": null,
     "name": "Coconut Cr\u00e8me",
-    "grape": "Stoli Vanilla, Mozart Coconut Creme Liqueur",
+    "grape": "Stoli Vanilla, Mozart Coconut Creme Liqueur, topped with cold foam",
     "glass_price": null,
     "bottle_price": null,
     "category": "After Dinner Martinis",
@@ -498,7 +498,7 @@
     "id": null,
     "name": "Gummy Bear Martini",
     "grape": null,
-    "glass_price": 10.0,
+    "glass_price": 12.0,
     "bottle_price": null,
     "category": "Happy Hour",
     "category_norm": "happy hour"
