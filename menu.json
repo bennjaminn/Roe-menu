@@ -326,8 +326,17 @@
   {
     "id": null,
     "name": "Roesy's Pearl",
-    "grape": "Gin, Almond Orgeat, Lime, Nutmeg",
-    "glass_price": 15.0,
+    "grape": "'Gray Whale' Gin, Almond Orgeat, Lime, Nutmeg",
+    "glass_price": 18.0,
+    "bottle_price": null,
+    "category": "cocktail",
+    "category_norm": "cocktails"
+  },
+  {
+    "id": null,
+    "name": "Capri",
+    "grape": "'Bar Hill Gin', Lemon, Cointreau, Honey",
+    "glass_price": 18.0,
     "bottle_price": null,
     "category": "cocktail",
     "category_norm": "cocktails"
@@ -361,8 +370,8 @@
   },
   {
     "id": null,
-    "name": "Espresso Martini",
-    "grape": "Fresh Espresso, Vodka, Coffee Liqueur",
+    "name": "'Our Spot' Espresso Martini",
+    "grape": "'Our Spot' Espresso, Vodka, Coffee Liqueur",
     "glass_price": null,
     "bottle_price": null,
     "category": "cocktail",
@@ -480,7 +489,7 @@
     "id": null,
     "name": "Roesy's Pearl",
     "grape": null,
-    "glass_price": 10.0,
+    "glass_price": 12.0,
     "bottle_price": null,
     "category": "Happy Hour",
     "category_norm": "happy hour"
@@ -512,5 +521,7 @@
   { "name": "Lost Coast Blonde",       "glass_price": 9, "category_norm": "drafts" },
   { "name": "Dad Bod Amber",           "glass_price": 9, "category_norm": "drafts" },
   { "name": "Guinness",                "glass_price": 9, "category_norm": "drafts" },
-  { "name": "Lagunitas Hazy",          "glass_price": 9, "category_norm": "drafts" }
+  { "name": "Lagunitas Hazy",          "glass_price": 9, "category_norm": "drafts" },
+  { "name": "Love Hazy",                "glass_price": 9, "category_norm": "drafts" },
+  { "name": "Offshoot Escape",                "glass_price": 9, "category_norm": "drafts" }
 ]

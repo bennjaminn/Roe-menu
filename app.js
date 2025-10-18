@@ -68,9 +68,28 @@ const SECTION_META = {
 // Item-specific options (by name, case-insensitive)
 const ITEM_OPTIONS = {
   'gummy bear martini': ['Apple', 'Grape', 'Watermelon'],
-  'gymmy bear martini': ['Apple', 'Grape', 'Watermelon'], // alias, just in case
+  'gymmy bear martini': ['Apple', 'Grape', 'Watermelon'], // alias
+
+  // Happy Hour martini in your JSON:
+  'vodka or gin martini- regular or blue cheese olives': [
+    'Lemon Drop', 'Cosmopolitan', 'Pomegranate'
+  ],
+
+  // Extra aliases (just in case names change later):
+  'vodka or gin martini': ['Lemon Drop', 'Cosmopolitan', 'Pomegranate'],
+  'gin martini': ['Lemon Drop', 'Cosmopolitan', 'Pomegranate']
 };
 const keyName = (s) => (s || '').trim().toLowerCase();
+// Pretty display names for tabs/section headers
+const DISPLAY_TITLES = {
+  "wine": "From the Vine",
+  "cocktails": "Craft Libations",
+  "after-dinner wine": "Digestifs",
+  "after-dinner martinis": "Sweet Endings Martini",
+  "sparkling": "Effervescence"
+};
+const displayTitle = (key) =>
+  DISPLAY_TITLES[key] ?? titleCase(key.replaceAll('-', ' '));
 
 
 // Wine subcategory rules
@@ -178,10 +197,10 @@ async function init() {
       });
     } else if (k === "happy hour") {
       sections[k].sort((a, b) => {
-        const ra = getHappyHourRank(a.name);
-        const rb = getHappyHourRank(b.name);
-        if (ra !== rb) return ra - rb;
-        return (a.name || "").localeCompare(b.name || "");
+        const pa = getSortPrice(a, "happy hour"); // glass first, else bottle
+        const pb = getSortPrice(b, "happy hour");
+        if (pa !== pb) return pa - pb;            // price asc
+        return (a.name || "").localeCompare(b.name || ""); // then A→Z
       });
     } else if (k !== "wine" && k !== "sparkling") {
       sections[k].sort((a, b) => (a.name || "").localeCompare(b.name || ""));
@@ -201,7 +220,7 @@ function renderTabs(order) {
 
   order.forEach((key, idx) => {
     const btn = document.createElement('button');
-    btn.textContent = titleCase(key.replaceAll('-', ' '));
+    btn.textContent =  displayTitle(key);
     btn.onclick = () => {
   const el = document.getElementById(`sec-${key}`);
   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -227,10 +246,13 @@ function renderSections(sections) {
 
     const h2 = document.createElement('h2');
     if (key === "cocktails") {
-      h2.innerHTML = 'Signature Craft Cocktails<br><span class="subtitle">"Roes Greatest Hits"</span>';
+      // keep the special subtitle but use your new title
+      h2.innerHTML = 'Craft Libations<br><span class="subtitle">"Roes Greatest Hits"</span>';
     } else {
-      h2.textContent = titleCase(key.replaceAll('-', ' '));
+      // use the display map for everything else
+      h2.textContent = displayTitle(key);
     }
+
     sec.appendChild(h2);
 
     // Optional section note
@@ -341,7 +363,12 @@ function renderWineSubsections(container, items) {
     sub.className = 'subsection';
 
     // Display label tweaks: shorten "Cabernet Sauvignon" to "Cabernet"
-    const displayLabel = (label === "Cabernet Sauvignon") ? "Cabernet" : label;
+    // Display label tweaks
+    const displayLabel =
+      (label === "Cabernet Sauvignon") ? "Cabernet" :
+      (label === "Other Reds") ? "Intriguing Reds" :
+      label;
+
 
     const h3 = document.createElement('h3');
     h3.className = 'subheading';
@@ -410,7 +437,7 @@ function renderCard(it, sectionKey) {
   const prices = [];
   if (sectionKey === "cocktails") {
     // All cocktails 18 except Roesy's Pearl 15
-    const price = isRoesysPearl(it.name) ? 15 : 18;
+    const price = 18;
     prices.push(`${price}`);
   } else if (sectionKey === "mocktails") {
     prices.push(`10`);
